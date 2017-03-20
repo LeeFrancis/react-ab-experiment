@@ -1,11 +1,11 @@
-import React from "react";
-
+import React, {PropTypes} from "react";
+import {enroll} from "./enroll";
 
 class ComponentExperiment {
-  constructor({provider = "planout"}) {
-    this.provider = provider;
+  constructor(props) {
+    this.props = props;
+    this.provider = {props};
   }
-
 
   innerPartial(func) {
     const args = Array.prototype.slice.call(arguments).splice(1);
@@ -15,10 +15,8 @@ class ComponentExperiment {
     };
   }
 
-  componentExperiment() {
-    const {defaultComponent} = this.props;
-    const {name, id, goals} = this.props;
-    const expInstance = this.getExperimentInstance();
+  get() {
+    const {expInstance, defaultComponent, id, goals} = this.props;
     const invalidComponent = <div>Invalid Experiment</div>;
 
     const passprops = {};
@@ -28,7 +26,7 @@ class ComponentExperiment {
     });
 
     const component = this.getComponentInstance(
-        expInstance ? this.experimentGet(expInstance, name, this.provider) :
+        expInstance ? enroll(expInstance, this.props) :
         defaultComponent, passprops);
 
 
@@ -39,13 +37,23 @@ class ComponentExperiment {
 
 
   getComponentInstance(componentName, props = {}) {
-    if (this.components && this.components[componentName]) {
-      const comp = React.cloneElement(this.components[componentName], props);
+    const {components} = this.props;
+    if (components && components[componentName]) {
+      const comp = React.cloneElement(components[componentName], props);
       return comp;
     }
     return null;
   }
 
 }
+
+ComponentExperiment.propTypes = {
+  id: PropTypes.string,
+  components: PropTypes.objectOf(PropTypes.element),
+  defaultComponent: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  goals: PropTypes.arrayOf(PropTypes.string).isRequired,
+  blah: PropTypes.string.isRequired
+};
 
 export default ComponentExperiment;

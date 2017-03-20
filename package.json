@@ -1,8 +1,8 @@
 {
-  "name": "npm-module-boilerplate-es6",
+  "name": "react-ab-experiment",
   "version": "1.0.0",
-  "description": "Boilerplate for npm modules.",
-  "main": "./lib/index.js",
+  "description": "Helper to instantiate AB test",
+  "main": "./lib/ab-experiment.js",
   "scripts": {
     "clean": "rimraf lib",
     "test": "cross-env BABEL_ENV=commonjs mocha --compilers js:babel-register --recursive",
@@ -19,27 +19,24 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Travelport-Ukraine/npm-module-boilerplate.git"
+    "url": ""
   },
   "keywords": [
-    "boilerplate",
     "npm",
     "module",
     "node",
     "javascript"
   ],
-  "author": "Mark mail.ormark@gmail.com",
-  "license": "MIT",
+  "author": "Lee Francis",
   "bugs": {
-    "url": "https://github.com/Travelport-Ukraine/npm-module-boilerplate/issues"
   },
-  "homepage": "https://github.com/Travelport-Ukraine/npm-module-boilerplate#readme",
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-cli": "^6.14.0",
     "babel-eslint": "^7.0.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.23.0",
     "babel-preset-stage-2": "^6.13.0",
     "chai": "^3.5.0",
     "cross-env": "^3.0.0",
@@ -54,6 +51,9 @@
     "rimraf": "^2.5.4"
   },
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "optimizely-client-sdk": "^1.3.0",
+    "planout": "^4.0.0",
     "react": "^15.4.2"
   }
 }

@@ -65,8 +65,8 @@ const logGoalsToMongoDB = (planoutUrl, data) => {
     console.log("logged goal results", rsp);
   });
 };
-
-const getExperimentInstance = function (planoutUrl, planoutObject, id) {
+/* eslint-disable prefer-arrow-callback */
+export const getExperimentInstance = function (planoutUrl, planoutObject, id) {
   const DemoExperiment = planout.Experiment.extend({
     setup() {
       this.name = "SampleExperiment";
@@ -103,5 +103,5 @@ const getExperimentInstance = function (planoutUrl, planoutObject, id) {
       {id}
   );
 };
+/* eslint-enable prefer-arrow-callback */
 
-export default getExperimentInstance;
