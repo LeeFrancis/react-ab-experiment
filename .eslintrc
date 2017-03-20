@@ -1,0 +1,6 @@
+{
+  "extends": "eslint-config-walmart/configurations/es6-react",
+  "root": true,
+  "rules": {
+  }
+}
