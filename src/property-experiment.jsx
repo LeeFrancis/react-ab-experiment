@@ -12,18 +12,18 @@ class PropertyExperiment {
    */
   get() {
     const {children, propKey, expInstance } = this.props;
+    if (!expInstance) {
+      return children;
+    }
     const clonedChildren = [];
-
-    if (expInstance) {
-      const arrayChildren = typeof children === "object" ? [children] : children;
-      const experimentVal = enroll(expInstance, this.props);
-      for (const child of arrayChildren) {
-        const extendedProp = {};
-        extendedProp[propKey] = experimentVal;
-        clonedChildren.push(React.cloneElement(
-          child, extendedProp
-        ));
-      }
+    const arrayChildren = typeof children === "object" ? [children] : children;
+    const experimentVal = enroll(expInstance, this.props);
+    for (const child of arrayChildren) {
+      const extendedProp = {};
+      extendedProp[propKey] = experimentVal;
+      clonedChildren.push(React.cloneElement(
+        child, extendedProp
+      ));
     }
     return clonedChildren.length === 1 ? clonedChildren[0] : clonedChildren;
   }
