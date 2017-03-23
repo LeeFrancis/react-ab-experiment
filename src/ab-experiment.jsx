@@ -35,9 +35,8 @@ class ABExperiment extends React.Component {
     return inst[this.provider] ? inst[this.provider]() : undefined;
   }
 
-
   /* eslint-disable no-console, no-undef */
-  handleSuccessEvent(theType) {
+  handleSuccessEvent(conversionKey) {
     //should use something other that args collection here
     console.log("Conversion Event Fired");
     
@@ -47,9 +46,10 @@ class ABExperiment extends React.Component {
     const user = this.props.user;
 
     if(provider === "optimizely") {
-        expInstance.track("Search_Initiated", `${user.id}`);
+
+      expInstance.track(conversionKey, `${user.id}`);
     } else if (this.expInstance) {
-        expInstance.logEvent(theType, {experimentid: arguments[1]});
+      expInstance.logEvent(conversionKey, {experimentid: arguments[1]});
     } else {
       console.log("Error: Conversion event detected, but unable to locate experiment for tracking");
     }
@@ -83,7 +83,7 @@ ABExperiment.propTypes = {
   components: PropTypes.objectOf(PropTypes.element),
   defaultComponent: PropTypes.string,
   name: PropTypes.string.isRequired,
-  goals: PropTypes.arrayOf(React.PropTypes.string).isRequired,
+  goals: PropTypes.object.isRequired,
   propKey: PropTypes.string,
   experimentType: PropTypes.string,
   planoutUrl: PropTypes.string,

@@ -21,8 +21,8 @@ class ComponentExperiment {
 
     const passprops = {};
     // iterate over goals
-    goals.forEach((val) => {
-      passprops[val] = this.innerPartial(this.props.handleConversion, val, id);
+    goals.forEach((val, key) => {
+      passprops[key] = this.innerPartial(this.props.handleConversion, val, id);
     });
 
     const component = this.getComponentInstance(
