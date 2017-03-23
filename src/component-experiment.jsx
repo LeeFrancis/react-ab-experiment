@@ -22,7 +22,7 @@ class ComponentExperiment {
     const passprops = {};
     // iterate over goals
     goals.forEach((val) => {
-      passprops[val] = this.innerPartial(this.handleSuccessEvent, val, id);
+      passprops[val] = this.innerPartial(this.props.handleConversion, val, id);
     });
 
     const component = this.getComponentInstance(
@@ -53,7 +53,7 @@ ComponentExperiment.propTypes = {
   defaultComponent: PropTypes.string,
   name: PropTypes.string.isRequired,
   goals: PropTypes.arrayOf(PropTypes.string).isRequired,
-  blah: PropTypes.string.isRequired
+  handleConversion: PropTypes.func.isRequired
 };
 
 export default ComponentExperiment;

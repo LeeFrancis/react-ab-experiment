@@ -14,8 +14,10 @@ class ABExperiment extends React.Component {
       "optimizely": () => {
         const {optimizelyExperiment} = this.props;
         const optimizely = require("optimizely-client-sdk");
+        console.log(JSON.parse(optimizelyExperiment.body));
+        // [TODO] Wrong place to parse this. Fix later.
         return optimizely.createInstance(
-          { datafile: optimizelyExperiment }
+          { datafile: JSON.parse(optimizelyExperiment.body) }
         );
       },
       "planout": () => {
@@ -39,10 +41,19 @@ class ABExperiment extends React.Component {
   /* eslint-disable no-console, no-undef */
   handleSuccessEvent(theType) {
     //should use something other that args collection here
-    if (this.expInstance) {
-      this.expInstance.logEvent(theType, {experimentid: arguments[1]});
+    console.log("Conversion Event Fired");
+    
+    const { provider = "planout" } = this.props;
+    // should already be set...
+    const expInstance = this.props.expInstance;
+    const user = this.props.user;
+
+    if(provider === "optimizely") {
+        expInstance.track("Search_Initiated", `${user.id}`);
+    } else if (this.expInstance) {
+        expInstance.logEvent(theType, {experimentid: arguments[1]});
     } else {
-      console.log("Error : Failed to instantiate experiment instance for ", this.provider);
+      console.log("Error: Conversion event detected, but unable to locate experiment for tracking");
     }
   }
   /* eslint-enable no-console, no-undef */
@@ -51,8 +62,14 @@ class ABExperiment extends React.Component {
     const {experimentType} = this.props;
     this.expInstance = this.getExperimentInstance();
     const component = experimentType === "property" ?
-      new PropertyExperiment(Object.assign({}, this.props, {expInstance: this.expInstance})) :
-      new ComponentExperiment(Object.assign({}, this.props, {expInstance: this.expInstance}));
+      new PropertyExperiment(Object.assign({}, this.props, {
+        expInstance: this.expInstance,
+        handleConversion: this.handleSuccessEvent
+      })) :
+      new ComponentExperiment(Object.assign({}, this.props, {
+        expInstance: this.expInstance,
+        handleConversion: this.handleSuccessEvent
+      }));
 
     return (
       <div>
