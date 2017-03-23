@@ -35,14 +35,23 @@ class ABExperiment extends React.Component {
     return inst[this.provider] ? inst[this.provider]() : undefined;
   }
 
-
   /* eslint-disable no-console, no-undef */
-  handleSuccessEvent(theType) {
+  handleSuccessEvent(conversionKey) {
     //should use something other that args collection here
-    if (this.expInstance) {
-      this.expInstance.logEvent(theType, {experimentid: arguments[1]});
+    console.log("Conversion Event Fired");
+    
+    const { provider = "planout" } = this.props;
+    // should already be set...
+    const expInstance = this.props.expInstance;
+    const user = this.props.user;
+
+    if(provider === "optimizely") {
+
+      expInstance.track(conversionKey, `${user.id}`);
+    } else if (this.expInstance) {
+      expInstance.logEvent(conversionKey, {experimentid: arguments[1]});
     } else {
-      console.log("Error : Failed to instantiate experiment instance for ", this.provider);
+      console.log("Error: Conversion event detected, but unable to locate experiment for tracking");
     }
   }
   /* eslint-enable no-console, no-undef */
@@ -51,8 +60,14 @@ class ABExperiment extends React.Component {
     const {experimentType} = this.props;
     this.expInstance = this.getExperimentInstance();
     const component = experimentType === "property" ?
-      new PropertyExperiment(Object.assign({}, this.props, {expInstance: this.expInstance})) :
-      new ComponentExperiment(Object.assign({}, this.props, {expInstance: this.expInstance}));
+      new PropertyExperiment(Object.assign({}, this.props, {
+        expInstance: this.expInstance,
+        handleConversion: this.handleSuccessEvent
+      })) :
+      new ComponentExperiment(Object.assign({}, this.props, {
+        expInstance: this.expInstance,
+        handleConversion: this.handleSuccessEvent
+      }));
 
     return (
       <div>
@@ -68,7 +83,7 @@ ABExperiment.propTypes = {
   components: PropTypes.objectOf(PropTypes.element),
   defaultComponent: PropTypes.string,
   name: PropTypes.string.isRequired,
-  goals: PropTypes.arrayOf(React.PropTypes.string).isRequired,
+  goals: PropTypes.object.isRequired,
   propKey: PropTypes.string,
   experimentType: PropTypes.string,
   planoutUrl: PropTypes.string,

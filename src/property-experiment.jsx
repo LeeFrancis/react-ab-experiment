@@ -7,6 +7,13 @@ class PropertyExperiment {
     this.provider = {props};
   }
 
+  innerPartial(func) {
+    const args = Array.prototype.slice.call(arguments).splice(1);
+    return () => {
+      const allArguments = args.concat(Array.prototype.slice.call(arguments));
+      return func.apply(this, allArguments);
+    };
+  }
 
   /* Grab all children - this can deal with multiple children or a single child
    */

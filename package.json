@@ -1,6 +1,6 @@
 {
   "name": "react-ab-experiment",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Helper to instantiate AB test",
   "main": "./lib/ab-experiment.js",
   "scripts": {
@@ -28,8 +28,7 @@
     "javascript"
   ],
   "author": "Lee Francis",
-  "bugs": {
-  },
+  "bugs": {},
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-cli": "^6.14.0",

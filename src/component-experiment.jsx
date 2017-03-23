@@ -16,13 +16,13 @@ class ComponentExperiment {
   }
 
   get() {
-    const {expInstance, defaultComponent, id, goals} = this.props;
+    const {expInstance, defaultComponent, id, goals, handleConversion} = this.props;
     const invalidComponent = <div>Invalid Experiment</div>;
 
     const passprops = {};
     // iterate over goals
-    goals.forEach((val) => {
-      passprops[val] = this.innerPartial(this.handleSuccessEvent, val, id);
+    goals.forEach((val, key) => {
+      passprops[key] = this.innerPartial(handleConversion, val, id);
     });
 
     const component = this.getComponentInstance(
@@ -53,7 +53,7 @@ ComponentExperiment.propTypes = {
   defaultComponent: PropTypes.string,
   name: PropTypes.string.isRequired,
   goals: PropTypes.arrayOf(PropTypes.string).isRequired,
-  blah: PropTypes.string.isRequired
+  handleConversion: PropTypes.func.isRequired
 };
 
 export default ComponentExperiment;
