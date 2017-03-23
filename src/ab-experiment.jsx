@@ -14,8 +14,6 @@ class ABExperiment extends React.Component {
       "optimizely": () => {
         const {optimizelyExperiment} = this.props;
         const optimizely = require("optimizely-client-sdk");
-        console.log(JSON.parse(optimizelyExperiment.body));
-        // [TODO] Wrong place to parse this. Fix later.
         return optimizely.createInstance(
           { datafile: JSON.parse(optimizelyExperiment.body) }
         );
