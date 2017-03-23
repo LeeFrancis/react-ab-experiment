@@ -18,18 +18,23 @@ class PropertyExperiment {
   /* Grab all children - this can deal with multiple children or a single child
    */
   get() {
-    const {children, propKey, expInstance } = this.props;
+    const {children, propKey, expInstance, id, goals, handleConversion } = this.props;
     if (!expInstance) {
       return children;
     }
     const clonedChildren = [];
+    const goalProps = {};
+    // iterate over goals
+    for (const prop in goals) {
+      goalProps[prop] = this.innerPartial(handleConversion, goals[prop], id);
+    }
     const arrayChildren = typeof children === "object" ? [children] : children;
     const experimentVal = enroll(expInstance, this.props);
     for (const child of arrayChildren) {
       const extendedProp = {};
       extendedProp[propKey] = experimentVal;
       clonedChildren.push(React.cloneElement(
-        child, extendedProp
+        child, Object.assign({}, extendedProp, goalProps)
       ));
     }
     return clonedChildren.length === 1 ? clonedChildren[0] : clonedChildren;

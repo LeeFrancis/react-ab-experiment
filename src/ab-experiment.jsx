@@ -38,14 +38,12 @@ class ABExperiment extends React.Component {
   /* eslint-disable no-console, no-undef */
   handleSuccessEvent(conversionKey) {
     //should use something other that args collection here
-    console.log("Conversion Event Fired");
-    
     const { provider = "planout" } = this.props;
     // should already be set...
     const expInstance = this.props.expInstance;
     const user = this.props.user;
 
-    if(provider === "optimizely") {
+    if (provider === "optimizely") {
 
       expInstance.track(conversionKey, `${user.id}`);
     } else if (this.expInstance) {
@@ -79,6 +77,7 @@ class ABExperiment extends React.Component {
 }
 ABExperiment.propTypes = {
   id: PropTypes.string,
+  provider: PropTypes.string,
   prepend: PropTypes.string,
   components: PropTypes.objectOf(PropTypes.element),
   defaultComponent: PropTypes.string,
@@ -93,7 +92,9 @@ ABExperiment.propTypes = {
   planoutExperiment: PropTypes.arrayOf(
     PropTypes.object
   ),
-  optimizelyExperiment: PropTypes.object
+  optimizelyExperiment: PropTypes.object,
+  expInstance: PropTypes.func
+
 };
 
 

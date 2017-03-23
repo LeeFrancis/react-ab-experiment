@@ -21,9 +21,9 @@ class ComponentExperiment {
 
     const passprops = {};
     // iterate over goals
-    goals.forEach((val, key) => {
-      passprops[key] = this.innerPartial(handleConversion, val, id);
-    });
+    for (const prop in goals) {
+      passprops[prop] = this.innerPartial(handleConversion, goals[prop], id);
+    }
 
     const component = this.getComponentInstance(
         expInstance ? enroll(expInstance, this.props) :
@@ -52,7 +52,7 @@ ComponentExperiment.propTypes = {
   components: PropTypes.objectOf(PropTypes.element),
   defaultComponent: PropTypes.string,
   name: PropTypes.string.isRequired,
-  goals: PropTypes.arrayOf(PropTypes.string).isRequired,
+  goals: PropTypes.object.isRequired,
   handleConversion: PropTypes.func.isRequired
 };
 
