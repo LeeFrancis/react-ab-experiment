@@ -15,7 +15,7 @@ class ABExperiment extends React.Component {
         const {optimizelyExperiment} = this.props;
         const optimizely = require("optimizely-client-sdk");
         return optimizely.createInstance(
-          { datafile: JSON.parse(optimizelyExperiment.body) }
+          { datafile: optimizelyExperiment }
         );
       },
       "planout": () => {
