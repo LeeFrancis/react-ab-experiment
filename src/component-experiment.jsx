@@ -16,13 +16,13 @@ class ComponentExperiment {
   }
 
   get() {
-    const {expInstance, defaultComponent, id, goals} = this.props;
+    const {expInstance, defaultComponent, id, goals, handleConversion} = this.props;
     const invalidComponent = <div>Invalid Experiment</div>;
 
     const passprops = {};
     // iterate over goals
     goals.forEach((val, key) => {
-      passprops[key] = this.innerPartial(this.props.handleConversion, val, id);
+      passprops[key] = this.innerPartial(handleConversion, val, id);
     });
 
     const component = this.getComponentInstance(
