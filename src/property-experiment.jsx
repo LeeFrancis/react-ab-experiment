@@ -25,8 +25,9 @@ class PropertyExperiment {
     const clonedChildren = [];
     const goalProps = {};
     // iterate over goals
-    for (const prop in goals) {
-      goalProps[prop] = this.innerPartial(handleConversion, goals[prop], id);
+    //for (const prop in goals) {
+    for (const key of goals.keys()) {  
+      goalProps[key] = this.innerPartial(handleConversion, goals.get(key), id);
     }
     const arrayChildren = typeof children === "object" ? [children] : children;
     const experimentVal = enroll(expInstance, this.props);
@@ -44,7 +45,10 @@ class PropertyExperiment {
 
 PropertyExperiment.propTypes = {
   name: PropTypes.string.isRequired,
-  propKey: PropTypes.string
+  propKey: PropTypes.string,
+  id: PropTypes.string,
+  goals: PropTypes.object.isRequired,
+  handleConversion: PropTypes.func.isRequired
 };
 
 

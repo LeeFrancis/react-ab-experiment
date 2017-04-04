@@ -44,7 +44,6 @@ class ABExperiment extends React.Component {
     const user = this.props.user;
 
     if (provider === "optimizely") {
-
       expInstance.track(conversionKey, `${user.id}`);
     } else if (this.expInstance) {
       expInstance.logEvent(conversionKey, {experimentid: arguments[1]});
